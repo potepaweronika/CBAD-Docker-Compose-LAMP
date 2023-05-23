@@ -1,0 +1,31 @@
+version: '3.2'
+services:
+  php:
+    build: './PHP/'
+    networks:
+      - backend
+    volumes:
+      - ./script/:/var/www/html/ 
+    container_name: php
+  apache:
+    build: './Apache/'
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "6666:80"
+    volumes:
+      - ./script/:/var/www/html/ 
+    container_name: apache
+  mysql:
+    build: './MySQL/'
+    networks:
+      - backend
+    container_name: mysql
+
+networks:
+  backend:
+  frontend:
